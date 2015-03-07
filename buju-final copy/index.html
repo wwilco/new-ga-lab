@@ -1,0 +1,144 @@
+<html>
+<title>buju</title>
+<head>
+  <!-- <link rel="stylesheet" href="css/reset.css"> -->
+  <!-- <link rel="stylesheet" href="css/nytimes.css"> -->
+  <style media="screen">
+    * {
+      color: black;
+      padding: 0;
+      margin: 0;
+    }
+    .lilDiv {
+      border: 5px solid purple;
+      background: steelblue;
+    }
+    #div1 {
+      border: 5px solid yellow;
+      height: 98%;
+      overflow: scroll;
+    }
+    /*#lilDiv {
+      border: 5px solid purple;
+      background: steelblue;
+    }*/
+    .chatArea {
+      border: 5px solid green;
+      background: white;
+      width: 50%;
+      height: 98%;
+      float: right;
+      clear: right;
+    }
+  </style>
+</head>
+  <script>
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  function drag(ev) {
+    ev.dataTransfer.setData("div", ev.target.id);
+  }
+
+  function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("div");
+    ev.target.appendChild(document.getElementById(data));
+  }
+  </script>
+  <body>
+    <!-- dropbox -->
+    <div class="chatArea" id="divdrop" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+    </div>
+
+    <!-- <div id="drag1" draggable="true" ondragstart="drag(event)" style="border: 5px solid blue; background:pink">
+      <img src="http://images.all-free-download.com/images/graphiclarge/decorative_sun_clip_art_23259.jpg"/>
+    </div> -->
+
+    <script charset="utf-8">
+    //ny times box
+      var body = document.querySelector("body");
+      var div1 = document.createElement("div");
+      div1.setAttribute("id", "div1");
+      body.appendChild(div1);
+      var url = "/news";
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url);
+      xhr.addEventListener('load', function(e) {
+        var data = xhr.responseText;
+        var parsed = JSON.parse(data);
+        for(var i = 0; i < 19; i++){
+          //a href, create before lilDiv so there
+          //is no extra div on bottom of page
+          var link = document.createElement("a");
+          link.setAttribute("href", parsed["results"][i]["url"]);
+          link.setAttribute("target", "_blank");
+          link.setAttribute("style", "text-decoration: none");
+          //individual divs
+          var lilDiv = document.createElement("div");
+          lilDiv.setAttribute("class", "lilDiv");
+          lilDiv.setAttribute("id", i);
+          lilDiv.setAttribute("draggable", "true");
+          lilDiv.setAttribute("ondragstart", "drag(event)");
+          div1.appendChild(lilDiv);
+          //append link to lilDiv
+          lilDiv.appendChild(link);
+
+          //byline
+          var byline = document.createElement("p");
+          byline.setAttribute("id", "byline");
+          byline.innerHTML = parsed["results"][i]["byline"];
+          lilDiv.appendChild(byline);
+          //date
+          var date = document.createElement("p");
+          date.setAttribute("id", "date");
+          date.innerHTML = parsed["results"][i]["published_date"];
+          lilDiv.appendChild(date);
+          //headline
+          var headline = document.createElement("h2");
+          headline.setAttribute("id", "headline");
+          headline.innerHTML = parsed["results"][i]["title"];
+          lilDiv.appendChild(headline);
+          link.appendChild(headline);
+          //console.log(headline.innerHTML)
+          //abstract
+          var abstract = document.createElement("p");
+          abstract.setAttribute("id", "abstract");
+          abstract.innerHTML = parsed["results"][i]["abstract"];
+          lilDiv.appendChild(abstract);
+          // //line break
+          var lineBreak = document.createElement("br");
+          div1.appendChild(lineBreak);
+
+        };
+
+      });
+      xhr.send();
+
+          // //image appender
+          // //need to fix for loop when articles do not have img url
+          // var imgNYTimes = document.createElement("img");
+          // imgNYTimes.setAttribute("id", "imgNYTimes");
+          // if(parsed["results"][i]["multimedia"][0]["url"]){
+          //   console.log("up")
+          //   imgNYTimes.setAttribute("src", parsed["results"][i]["multimedia"][0]["url"]);
+          //   console.log("down")
+          //
+          //   // //imgNYTimes.setAttribute("src", parsed["results"][i]["media"][0]["media-metadata"][0]["url"]);
+          // } else {
+          //   console.log("inside the thigns");
+          //   //var imgSync = document.createElement("img");
+          //   // imgSync.setAttribute("id", "imgSync");
+          //   imgNYTimes.setAttribute("src", "pics/timesny.png");
+          // };
+          //
+          // link.appendChild(imgNYTimes);
+
+
+
+    </script>
+
+  </body>
+</html>

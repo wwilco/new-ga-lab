@@ -1,0 +1,47 @@
+#imgNYTimes {
+  float: left;
+}
+p {
+  font-size: 10px;
+  color: rgba(0,0,0,.9);
+}
+h2, #headline{
+  font-size: 16px;
+  color: rgba(0,0,0,.9);
+
+}
+#byline {
+}
+#date {
+  letter-spacing: 1px;
+}
+#abstract{
+  font-size: 12px;
+  color: rgba(0,0,0,.9);
+
+}
+
+#nytimes {
+  float: right;
+  margin-top: -560px;
+  margin-right: 80px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 3px;
+}
+
+#div1 {
+  width: 300px;
+  height: 455px;
+  overflow: scroll;
+  float: right;
+  margin-top: -520px;
+  margin-right: 80px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 3px;
+  padding: 5px 5px;
+  background-color: rgba(232,232,232,.99);
+}

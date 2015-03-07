@@ -1,0 +1,120 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="gif-style.css" media="screen" charset="utf-8">
+    <title>solo gif</title>
+  </head>
+
+  <script>
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  function drag(ev) {
+    ev.dataTransfer.setData("gifpic", ev.target.id);
+  }
+
+  function drop(ev) {
+    ev.preventDefault();
+    var gifpic = ev.dataTransfer.getData("gifpic");
+    ev.target.appendChild(document.getElementById(gifpic));
+  }
+  </script>
+
+  <body>
+
+    <section id="gifsection">
+      <input type= "text" id= "searcher" placeholder= "search gifs">
+      <button id="button">send it</button>
+      <br>
+      <div >
+        <img id="drag1" draggable="true" ondragstart="drag(event)" />
+      </div>
+      <br>
+      <button id="prevbutton"> prev gif </button>
+      <button id="nextbutton" style="margin-left:30px"> next gif </button>
+    </section>
+
+    <section id="dragndrop">
+      <div id="case" style="border:2px solid purple">
+        <input>
+        <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+        </div>
+      </div>
+
+    </section>
+
+  <script>
+
+  var button = document.getElementById("button");
+
+  button.addEventListener("click", function() {
+    var search = document.getElementById("searcher");
+    var searchVal = search.value;
+    var url_safe = encodeURI(searchVal);
+
+    var url = "http://api.giphy.com/v1/gifs/search?q=" + url_safe + "&api_key=dc6zaTOxFJmzC";
+    // console.log(url);
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("GET", url);
+
+    xhr.addEventListener('load' , function() {
+      var data = xhr.responseText
+      var parsed = JSON.parse(data);
+      var gif = document.querySelector("img");
+      var i = 0;
+      gif.setAttribute("src", parsed["data"][i]["images"]["original"]["url"]);
+
+      var next = document.getElementById("nextbutton");
+      next.addEventListener("click", function() {
+        var search = document.getElementById("searcher");
+        var searchVal = search.value;
+        var url_safe = encodeURI(searchVal);
+
+        var url = "http://api.giphy.com/v1/gifs/search?q=" + url_safe + "&api_key=dc6zaTOxFJmzC";
+        // console.log(url);
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("GET", url);
+
+        xhr.addEventListener('load' , function() {
+          var data = xhr.responseText
+          var parsed = JSON.parse(data);
+          var gif = document.querySelector("img");
+          i++;
+          gif.setAttribute("src", parsed["data"][i]["images"]["original"]["url"]);
+        })
+        xhr.send();
+      });
+
+      var prev = document.getElementById("prevbutton");
+      prev.addEventListener("click", function() {
+        var search = document.getElementById("searcher");
+        var searchVal = search.value;
+        var url_safe = encodeURI(searchVal);
+
+        var url = "http://api.giphy.com/v1/gifs/search?q=" + url_safe + "&api_key=dc6zaTOxFJmzC";
+        // console.log(url);
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("GET", url);
+
+        xhr.addEventListener('load' , function() {
+          var data = xhr.responseText
+          var parsed = JSON.parse(data);
+          var gif = document.querySelector("img");
+          i--;
+          gif.setAttribute("src", parsed["data"][i]["images"]["original"]["url"]);
+        })
+        xhr.send();
+      });
+    });
+    xhr.send();
+  });
+
+
+
+  </script>
+  </body>
+</html>

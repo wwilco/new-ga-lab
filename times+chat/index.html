@@ -1,0 +1,105 @@
+<html>
+<head>
+  <title>times+chat</title>
+  <link rel="stylesheet" href="css/client.css">
+  <link rel="stylesheet" href="css/times.css">
+  <!-- <link rel="stylesheet" href="gif-style.css"> -->
+</head>
+
+  <script>
+  //dragNdrop function
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  function drag(ev) {
+    ev.dataTransfer.setData("div", ev.target.id);
+  }
+
+  function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("div");
+    ev.target.appendChild(document.getElementById(data));
+  }
+  </script>
+
+<body>
+
+  <section class="chatsection">
+    <div id="chatsection" id="div2" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <div class="chatArea">
+        <ul class="messages">
+        </ul>
+      </div>
+      <input class="inputMessage" placeholder="write monosodium glutamate here..."/>
+      <div></div>
+    </div>
+  </section>
+
+
+  <script src="client.js"></script>
+
+  <script charset="utf-8">
+  //ny times box
+  var body = document.querySelector("body");
+  var div1 = document.createElement("div");
+  div1.setAttribute("id", "div1");
+  body.appendChild(div1);
+  var url = "/news";
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url);
+  xhr.addEventListener('load', function(e) {
+    var data = xhr.responseText;
+    var parsed = JSON.parse(data);
+    for(var i = 0; i < 19; i++){
+      //a href, create before lilDiv so there
+      //is no extra div on bottom of page
+      var link = document.createElement("a");
+      link.setAttribute("href", parsed["results"][i]["url"]);
+      link.setAttribute("target", "_blank");
+      link.setAttribute("style", "text-decoration: none");
+      //individual divs
+      var lilDiv = document.createElement("div");
+      lilDiv.setAttribute("class", "lilDiv");
+      lilDiv.setAttribute("id", i);
+      lilDiv.setAttribute("draggable", "true");
+      lilDiv.setAttribute("ondragstart", "drag(event)");
+      div1.appendChild(lilDiv);
+      //append link to lilDiv
+      lilDiv.appendChild(link);
+
+      //byline
+      var byline = document.createElement("p");
+      byline.setAttribute("id", "byline");
+      byline.innerHTML = parsed["results"][i]["byline"];
+      lilDiv.appendChild(byline);
+      //date
+      var date = document.createElement("p");
+      date.setAttribute("id", "date");
+      date.innerHTML = parsed["results"][i]["published_date"];
+      lilDiv.appendChild(date);
+      //headline
+      var headline = document.createElement("h2");
+      headline.setAttribute("id", "headline");
+      headline.innerHTML = parsed["results"][i]["title"];
+      lilDiv.appendChild(headline);
+      link.appendChild(headline);
+      //console.log(headline.innerHTML)
+      //abstract
+      var abstract = document.createElement("p");
+      abstract.setAttribute("id", "abstract");
+      abstract.innerHTML = parsed["results"][i]["abstract"];
+      lilDiv.appendChild(abstract);
+      // //line break
+      var lineBreak = document.createElement("br");
+      div1.appendChild(lineBreak);
+
+    };
+
+  });
+  xhr.send();
+
+</script>
+
+</body>
+</html>

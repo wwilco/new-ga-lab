@@ -1,0 +1,27 @@
+* {
+  color: black;
+  padding: 0;
+  margin: 0;
+}
+.lilDiv {
+  border: 5px solid purple;
+  background: steelblue;
+}
+#div1 {
+  border: 5px solid yellow;
+  height: 98%;
+  overflow: scroll;
+  float: right;
+}
+/*#lilDiv {
+border: 5px solid purple;
+background: steelblue;
+}*/
+/*.chatArea {
+  border: 5px solid green;
+  background: white;
+  width: 100%;
+  height: 98%;
+  float: right;
+  clear: right;
+}*/

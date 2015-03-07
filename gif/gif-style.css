@@ -1,0 +1,11 @@
+#div1 {
+  width:350px;
+
+  padding:10px;
+  border:1px solid #aaaaaa;
+}
+
+#div1 img {
+  width: 100%;
+  color: white
+}
