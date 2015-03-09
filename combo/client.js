@@ -1,9 +1,6 @@
 var ip = "localhost";
 var ws = new WebSocket('ws://' + ip + ':3000');
 
-//start the app with the cursor in the input box
-//document.querySelector('.inputMessage');
-
 function appendToChat(msg) {
   var messages = document.querySelector('.messages');
   var msgli = document.createElement('li');
@@ -15,7 +12,6 @@ function appendToChat(msg) {
 
 window.onkeypress = function(evt) {
   var inputMessage = document.querySelector('.inputMessage');
-  //inputMessage.focus();
   if (evt.keyCode === 13) {
     appendToChat(inputMessage.value);
     ws.send(inputMessage.value);

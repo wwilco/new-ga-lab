@@ -12,8 +12,7 @@ function appendToChat(msg) {
   msgli.appendChild(txtNode);
   messages.appendChild(msgli);
   messages.scrollTop = messages.scrollHeight;
-
-
+  
 }
 
 window.onkeypress = function(evt) {
@@ -29,7 +28,6 @@ window.onkeypress = function(evt) {
   if (evt.keyCode === 13) {
     ws.send(msgDiv.value);
   }
-  
 }
 
 ws.onmessage = function(evt) {
